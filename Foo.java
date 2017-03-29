@@ -1,3 +1,5 @@
+
+// This is a comment
 class Foo
 {
     public static void main(String args[]){
