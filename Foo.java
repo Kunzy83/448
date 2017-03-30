@@ -1,25 +1,43 @@
+import java.lang.*;
+import java.io.*;
 
 // This is still  a comment
-class Foo
+public class Foo
 {
-  public static void main(String args[]){
-    if(args.length < 3)
+  public static int main(String args[]){
+    if(args.length < 3){
       System.out.println("Error - Expected usage: ./main input.txt output.tx");
       return 1;
     }
       
     //Initialize file streams
-    in = new FileInputStream(args[1]);
-    out = new FIleOutputStream(args[2]);
+    FileInputStream in = new FileInputStream(args[1]);
+    FileOutputStream out = new FileOutputStream(args[2]);
       
     //Process commands
-    int n;
-    while( (n = System.in.read())> 0){
-      Matrix m(n);
-      in.read() m;
+    int n = 1;
+    while( n > 0){
+      n = in.read();
 
-      out.write("M = \n"); // may have to use .getbytes() on end of string
-      out.write(m);
+      Matrix m = new Matrix(n);
+
+      for(int i = 0; i < n; i++){  // read in the matrix
+        for(int j = 0; j < n; j++){
+          int k = in.read();
+          m.setMdata(k);
+        }
+      }
+
+      String str = "M = \n";
+      byte b[] = str.getbytes();
+      out.write(b); // may have to use .getbytes() on end of string
+
+      for(int i = 0; i < n; i++){  // write out the matrix
+        for(int j = 0; j < n; j++){
+          out.write(m.getMdata[i][j]);
+        }
+        out.write('\n');
+      }
 
       double det = m.determinant();
       out.write("det(M) = ");
@@ -36,71 +54,4 @@ class Foo
     return 0;
 
   }//end of main
-
-//Matrix funct
-  public class Matrix(int x){
-    private int n = x;
-    private double mdata = new double[10][10];// NOT SURE IF THIS IS CORRECT?
-
-//determinant funct
-    public static double determinant(){
-      double det = 0.0;
-      
-      if(n == 1){
-        det = mdata[0][0];
-      }
-      else if(n == 2){
-        det = (mdata[0][0]*mdata[1][1]) - (mdata[0][1]*mdata[1][0]);
-      }
-      else{
-        for(int i = 0; i < n; i++){
-          det += Math.pow(-1.0, (double)i)) * mdata[0][i] * subMatrix(0, i).determinant();
-        }
-      }
-
-    return det;
-
-    }//end of determinant
-
-//subMatrix funct
-    public static Matrix subMatrix(int r, int c){
-      Matrix sub(n - 1);
-
-      int row = 0;
-      for(int i = 0; i < n; i++){
-        if(i == r) continue;
-
-        int col = 0;
-        for(int j = 0; j < n; j++){
-          if(j == c) continue;
-
-          sub.mdata[row][col] = mdata[i][j];
-          ++col;
-        }
-        ++row;
-      }
-
-      return sub;
-
-    }//end of subMatrix
-
-
-//inverse funct
-    public static Matrix inverse(){
-      Matrix inv(n);
-      double det = determinant();
-
-      for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-          inv.mdata[i][j] = pow(-1.0, (double)i + j) * subMatrix(j,i).determinant() / det;
-        }
-      }
-      return inv;
-
-    }//end of inverse
-
-  }//end of Matrix 
-
-
 }//end of Foo
-
