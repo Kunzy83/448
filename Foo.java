@@ -16,8 +16,25 @@ class Foo
     int n;
     while( (n = System.in.read())> 0){
       Matrix m(n);
-        
+      in.read() m;
+
+      out.write("M = \n"); // may have to use .getbytes() on end of string
+      out.write(m);
+
+      double det = m.determinant();
+      out.write("det(M) = ");
+      out.write(det);
+      out.write('\n'); out.write('\n');
+
+      if(det != 0){
+        Matrix inv = m.inverse();
+
+        out.write("Minv = \n");
+        out.write(inv); outwrite('\n');
+      }
     }
+    return 0;
+
   }//end of main
 
 //Matrix funct
